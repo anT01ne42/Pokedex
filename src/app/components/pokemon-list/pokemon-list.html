@@ -1,0 +1,8 @@
+<ul>
+  @for (pokemon of pokemons$ | async; track pokemon.name) {
+    <li [routerLink]="['details', pokemon.name]">{{ pokemon.name }}</li>
+  }
+  @empty {
+    <p> Il y a pas de pokemons </p>
+  }
+</ul>

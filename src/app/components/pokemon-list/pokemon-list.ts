@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PokemonServices } from '../../pokemon-services';
-import { combineLatest, map, Observable, startWith } from 'rxjs';
+import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +27,8 @@ export class PokemonList {
 
   searchControl = new FormControl('');
 
-  isInitialized = false
+  isLoading = true;
+  hasData = false;
 
   // Filtrage des pokemons avec combine latest afin de lancer le filtrage quand un élément de la liste a été émis à nouveau
   filteredPokemons$ = combineLatest([
@@ -36,6 +37,10 @@ export class PokemonList {
     this.selectedOrderControl.valueChanges.pipe(startWith('id')),
     this.searchControl.valueChanges.pipe(startWith('')),
   ]).pipe(
+    tap(() => {
+      this.isLoading = true;
+      this.hasData = false;
+    }),
     // via destructuration on récupère les élements du combineLatest afin de les réutiliser pour le filtrage éventuel
     // puis l'ordre des éléments
     map(([pokemons, selectedType, selectedOrder, searchControl]) => {
@@ -51,7 +56,15 @@ export class PokemonList {
         });
       // puis les mettre dans l'ordre attendu
       return sortPokemons(selectedOrder!, pokemonsToSort);
+    }),
+    tap(pokemons => {
+      this.isLoading = false;
+      this.hasData = pokemons.length > 0;
     })
   );
 
+  // permet quand le composant est monté de récupérer les pokemon intiallement
+  ngOnInit() {
+    this.filteredPokemons$.subscribe();
+  }
 }

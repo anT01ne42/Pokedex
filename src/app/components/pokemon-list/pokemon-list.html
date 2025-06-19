@@ -34,7 +34,9 @@
   </label>
 </div>
 
-
+@if (isLoading) {
+<p>Loading pokemons...</p>
+} @else if (hasData) {
 <ul>
   @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
   <li [routerLink]="['details', pokemon.name]">
@@ -46,7 +48,7 @@
       )</span>
   </li>
   }
-  @empty {
-  <p>Empty</p>
-  }
 </ul>
+} @else {
+<p>No pokemons found</p>
+}

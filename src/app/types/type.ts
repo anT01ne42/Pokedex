@@ -6,12 +6,13 @@ export interface ResponsePokemonList {
 }
 
 export interface PokemonSummary {
-  name: String;
+  name: string;
   url: string;
 }
 
 export interface PokemonWithTypes {
-  name: String;
+  id: number;
+  name: string;
   types: PokemonTypes[];
 }
 

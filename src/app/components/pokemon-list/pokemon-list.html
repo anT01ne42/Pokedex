@@ -8,26 +8,38 @@
 
     <!-- Pour chaque type de pokemon de l'API on créer son radio button -->
     @for (pokemonType of pokemonTypes$ | async; track pokemonType.name) {
-      <label>
-        <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
-        {{ pokemonType.name }}
-      </label>
+    <label>
+      <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
+      {{ pokemonType.name }}
+    </label>
     }
   </div>
 </div>
 
+<div>
+  <label>
+    Order by
+    <select [formControl]="selectedOrderControl">
+      <option value="id">by id</option>
+      <option value="asc">by name (ascending)</option>
+      <option value="desc">by name (descending)</option>
+    </select>
+  </label>
+</div>
+
+
 <ul>
   @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
-    <li [routerLink]="['details', pokemon.name]">
-      {{ pokemon.name }}
-      <span>(
-        @for (type of pokemon.types; track type.slot) {
-          <span>{{ type.type.name }} </span>
-        }
+  <li [routerLink]="['details', pokemon.name]">
+    {{ pokemon.name }}
+    <span>(
+      @for (type of pokemon.types; track type.slot) {
+      <span>{{ type.type.name }} </span>
+      }
       )</span>
-    </li>
+  </li>
   }
   @empty {
-    <p>Loading...</p>
+  <p>Empty</p>
   }
 </ul>

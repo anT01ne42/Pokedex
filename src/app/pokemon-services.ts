@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 import { PokemonList } from './components/pokemon-list/pokemon-list';
 import { PokemonDetails, PokemonSummary, PokemonWithTypes, ResponsePokemonList, ResponsePokemonTypeList, TypeInfo } from './types/type';
 
@@ -30,13 +30,14 @@ export class PokemonServices {
           this.http.get<PokemonDetails>(pokemon.url).pipe(
             // depuis ce détail on récupère les deux infos qui nous intéressent pour la liste ainsi que le filtrage sur les éléments des pokemons
             map((pokemonDetails: PokemonDetails) => ({
+              id: pokemonDetails.id,
               name: pokemonDetails.name,
               types: pokemonDetails.types
             }))
           )
         );
         // retourne le résultat une fois que toutes les opérations du switchmap ont bien eu lieu et les infos ont été récupérées
-        return forkJoin(detailRequests)
+        return forkJoin(detailRequests).pipe(tap(() => console.log("got results")))
       })
     );
   }

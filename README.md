@@ -62,12 +62,14 @@ The home page displays a list of Pokémon with various filtering options:
 
 ### Pokémon Details
 
-TODO : Click on any Pokémon in the list to view its detailed information, including:
+Click on any Pokémon in the list to view its detailed information, including:
 - Name
+- Id
+- Height and weight
 - Types
-- Stats
 - Abilities
-- Images
+- Stats
+- Image
 
 ## Project Structure
 

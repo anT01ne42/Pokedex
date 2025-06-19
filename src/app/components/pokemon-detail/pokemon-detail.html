@@ -1,5 +1,34 @@
 @if (pokemon$ | async; as pokemon) {
-  <span>{{ pokemon.name }}</span>
+  <span>{{ pokemon.name }} </span>
+  <div>
+    <span>{{ pokemon.id }} </span>
+  </div>
+  <div>
+  <span>Height and weight : {{ pokemon.height }}0 cm, </span>
+  <span>{{ pokemon.weight }}00 g</span>
+  </div>
+
+  <div>
+  @for (type of pokemon.types; track type.slot) {
+     <span>{{ type.type.name }} </span>
+  }</div>
+
+  @for (ability of pokemon.abilities; track ability.slot) {
+    <span>{{ ability.ability.name }} </span>
+  }
+  <div>
+  <img [src]="pokemon.sprites.front_default">
+  </div>
+
+  <div>
+  @for (stat of pokemon.stats; track stat.stat.name) {
+    <span> {{ stat.stat.name }}: </span>
+    <span> {{ stat.base_stat }} </span>
+  }</div>
 } @else {
   <span>Loading...</span>
 }
+
+<!--
+// IMG
+-->

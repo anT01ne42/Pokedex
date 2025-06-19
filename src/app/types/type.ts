@@ -36,7 +36,7 @@ export interface PokemonDetails {
   past_abilities: any;
   past_types: any[];
   species: any;
-  sprites: Sprite[];
+  sprites: Sprite;
   stats: Stat[];
   types: PokemonTypes[];
   weight: number;

@@ -1,4 +1,4 @@
-import { PokemonWithTypes } from "../types/type";
+import {PokemonDetails, PokemonWithTypes} from "../types/type";
 
 /**
  * ordonne un tableau de pokemons selon la condition spécifiée

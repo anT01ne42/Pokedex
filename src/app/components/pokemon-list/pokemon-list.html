@@ -27,6 +27,13 @@
   </label>
 </div>
 
+<div>
+  <label>
+    Search by name
+    <input type="text" [formControl]="searchControl">
+  </label>
+</div>
+
 
 <ul>
   @for (pokemon of filteredPokemons$ | async; track pokemon.name) {

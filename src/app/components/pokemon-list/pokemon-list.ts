@@ -25,6 +25,8 @@ export class PokemonList {
 
   selectedOrderControl = new FormControl('id');
 
+  searchControl = new FormControl('');
+
   isInitialized = false
 
   // Filtrage des pokemons avec combine latest afin de lancer le filtrage quand un élément de la liste a été émis à nouveau
@@ -32,18 +34,22 @@ export class PokemonList {
     this.pokemons$,
     this.selectedTypeControl.valueChanges.pipe(startWith('all')),
     this.selectedOrderControl.valueChanges.pipe(startWith('id')),
+    this.searchControl.valueChanges.pipe(startWith('')),
   ]).pipe(
     // via destructuration on récupère les élements du combineLatest afin de les réutiliser pour le filtrage éventuel
     // puis l'ordre des éléments
-    map(([pokemons, selectedType, selectedOrder]) => {
-      // si pas de filtrage uniquement renvoyer le tableau apris qu'il ait été ordonné
+    map(([pokemons, selectedType, selectedOrder, searchControl]) => {
+      // si pas de filtrage par type uniquement filtrer par nom puis ordonner les résultats
       if (selectedType === 'all') {
-        return sortPokemons(selectedOrder!, pokemons);
+        const nameFilteredPokemons = pokemons.filter((pokemon) => pokemon.name.includes(searchControl || ''))
+        return sortPokemons(selectedOrder!, nameFilteredPokemons);
       }
-      // sinon d'abord récupérer les pokemons correspondant au filtre puis les mettre dans l'ordre attendu
-      const pokemonsToSort = pokemons.filter((pokemon) => {
-        return pokemon.types.some(t => t.type.name === selectedType);
-      });
+      // sinon d'abord récupérer les pokemons correspondant au filtres type et nom
+      const pokemonsToSort = pokemons
+        .filter((pokemon) => {
+          return pokemon.name.includes(searchControl || '') && pokemon.types.some(t => t.type.name === selectedType)
+        });
+      // puis les mettre dans l'ordre attendu
       return sortPokemons(selectedOrder!, pokemonsToSort);
     })
   );

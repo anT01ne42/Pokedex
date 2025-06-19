@@ -1,8 +1,17 @@
 <ul>
-  @for (pokemon of pokemons$ | async; track pokemon.name) {
-    <li [routerLink]="['details', pokemon.name]">{{ pokemon.name }}</li>
+  @for (pokemonType of pokemonTypes$ | async; track pokemonType.name) {
+  <li>{{ pokemonType.name }}</li>
   }
   @empty {
-    <p> Il y a pas de pokemons </p>
+  <p> loading... </p>
+  }
+</ul>
+
+<ul>
+  @for (pokemon of pokemons$ | async; track pokemon.name) {
+  <li [routerLink]="['details', pokemon.name]">{{ pokemon.name }}</li>
+  }
+  @empty {
+  <p> loading... </p>
   }
 </ul>

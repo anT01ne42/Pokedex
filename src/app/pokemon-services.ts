@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { PokemonList } from './components/pokemon-list/pokemon-list';
-import {PokemonDetails, PokemonSummary, ResponseList} from './types/type';
+import { PokemonDetails, PokemonSummary, PokemonWithTypes, ResponsePokemonList, ResponsePokemonTypeList, TypeInfo } from './types/type';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,48 @@ import {PokemonDetails, PokemonSummary, ResponseList} from './types/type';
 export class PokemonServices {
   private ApiUrlList = 'https://pokeapi.co/api/v2/pokemon?limit=50';
   private ApiUrlDetails = 'https://pokeapi.co/api/v2/pokemon/';
-  constructor(private http: HttpClient) {}
+  private ApiUrlTypes = 'https://pokeapi.co/api/v2/type/';
+  constructor(private http: HttpClient) { }
 
   getPokemons(): Observable<PokemonSummary[]> {
-     return this.http.get<ResponseList>(this.ApiUrlList).pipe(
-       map(response => response.results)
-     )
+    return this.http.get<ResponsePokemonList>(this.ApiUrlList).pipe(
+      map(response => response.results)
+    )
+  }
+
+  getPokemonsSummaryWithTypes(): Observable<PokemonWithTypes[]> {
+    // récupération de la liste des 50 pokemons avec infos basiques name et url
+    return this.http.get<ResponsePokemonList>(this.ApiUrlList).pipe(
+      // on se base sur la réponse initiale pour ensuite appeler les routes pour chaque pokemon
+      // afin de récupéré les types des pokemons
+      switchMap((response) => {
+        const detailRequests = response.results.map((pokemon: PokemonSummary) =>
+          // pour le pokemon sur lequel on itère on utilise l'url donnée par dans la réponse initiale qui permet d'avoir le detail du pokemon
+          this.http.get<PokemonDetails>(pokemon.url).pipe(
+            // depuis ce détail on récupère les deux infos qui nous intéressent pour la liste ainsi que le filtrage sur les éléments des pokemons
+            map((pokemonDetails: PokemonDetails) => ({
+              name: pokemonDetails.name,
+              types: pokemonDetails.types
+            }))
+          )
+        );
+        // retourne le résultat une fois que toutes les opérations du switchmap ont bien eu lieu et les infos ont été récupérées
+        return forkJoin(detailRequests)
+      })
+    );
   }
 
   getPokemonDetails(name: string): Observable<PokemonDetails> {
     return this.http.get<PokemonDetails>(`${this.ApiUrlDetails}${name}`);
+  }
+
+  getAllPokemonTypes(): Observable<TypeInfo[]> {
+    return this.http.get<ResponsePokemonTypeList>(this.ApiUrlTypes).pipe(
+      map(response => {
+        console.log("response", response)
+        console.log("response results", response.results)
+        return response.results
+      })
+    )
   }
 }

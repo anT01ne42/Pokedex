@@ -1,21 +1,26 @@
-export interface ResponseList{
+export interface ResponsePokemonList {
   count: number;
-  next:string|null;
-  previous: string|null;
+  next: string | null;
+  previous: string | null;
   results: PokemonSummary[];
 }
 
-export interface PokemonSummary{
+export interface PokemonSummary {
   name: String;
-  url :string;
+  url: string;
 }
 
-export interface PokemonDetails{
+export interface PokemonWithTypes {
+  name: String;
+  types: PokemonTypes[];
+}
+
+export interface PokemonDetails {
   abilities: Ability[];
   base_experience: number;
   cries: {
-    latest:string;
-    legacy:string;
+    latest: string;
+    legacy: string;
   }
   forms: any[];
   game_indices: any[];
@@ -32,20 +37,20 @@ export interface PokemonDetails{
   species: any;
   sprites: Sprite[];
   stats: Stat[];
-  types: any[];
+  types: PokemonTypes[];
   weight: number;
 }
 
 export interface Ability {
   ability: {
-    name:string;
-    url:string;
+    name: string;
+    url: string;
   }
-  is_hidden:boolean;
-  slot:number;
+  is_hidden: boolean;
+  slot: number;
 }
 
-export interface Sprite{
+export interface Sprite {
   front_default: string;
   front_shiny: string;
   back_default: string;
@@ -54,15 +59,35 @@ export interface Sprite{
   front_shiny_female: string;
   back_default_female: string;
   back_shiny_female: string;
-  other:any;
-  versions:any;
+  other: any;
+  versions: any;
 }
 
-export interface Stat{
+export interface Stat {
   base_stat: number;
   effort: number;
   stat: {
     name: string;
     url: string;
   }
+}
+
+export interface PokemonTypes {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  }
+}
+
+export interface TypeInfo {
+  name: string;
+  url: string;
+}
+
+export interface ResponsePokemonTypeList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: TypeInfo[];
 }

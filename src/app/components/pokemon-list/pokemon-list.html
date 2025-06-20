@@ -41,14 +41,16 @@
 <ul class="pokemon-list">
   @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
   <li class="pokemon-item" [routerLink]="['details', pokemon.name]">
+    <div class="pokemon-info">
+      <div class="pokemon-name">{{ pokemon.name }}</div>
+      <div class="pokemon-types">
+        @for (type of pokemon.types; track type.slot) {
+        <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
+        }
+      </div>
+    </div>
     <div class="pokemon-image">
       <img [src]="pokemon.defaultSprite" [alt]="'image-' + pokemon.name">
-    </div>
-    <div class="pokemon-name">{{ pokemon.name }}</div>
-    <div class="pokemon-types">
-      @for (type of pokemon.types; track type.slot) {
-      <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
-      }
     </div>
   </li>
   }

@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PokemonServices} from '../../pokemon-services';
 import {AsyncPipe} from '@angular/common';
 import {Observable, switchMap} from 'rxjs';
@@ -8,7 +8,8 @@ import {PokemonDetails} from '../../types/type';
 @Component({
   selector: 'app-pokemon-detail',
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
   templateUrl: './pokemon-detail.html',
   styleUrl: './pokemon-detail.css'

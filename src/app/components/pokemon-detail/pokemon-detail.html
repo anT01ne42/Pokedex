@@ -1,34 +1,60 @@
 @if (pokemon$ | async; as pokemon) {
-  <span>{{ pokemon.name }} </span>
-  <div>
-    <span>{{ pokemon.id }} </span>
-  </div>
-  <div>
-  <span>Height and weight : {{ pokemon.height }}0 cm, </span>
-  <span>{{ pokemon.weight }}00 g</span>
-  </div>
+  <div class="pokemon-detail-container">
+    <div class="pokemon-header">
+      <span class="pokemon-name">{{ pokemon.name }}</span>
+      <span class="pokemon-id">#{{ pokemon.id }}</span>
+    </div>
 
-  <div>
-  @for (type of pokemon.types; track type.slot) {
-     <span>{{ type.type.name }} </span>
-  }</div>
+    <div class="pokemon-image">
+      <img [src]="pokemon.sprites.front_default">
+    </div>
 
-  @for (ability of pokemon.abilities; track ability.slot) {
-    <span>{{ ability.ability.name }} </span>
-  }
-  <div>
-  <img [src]="pokemon.sprites.front_default">
+    <div class="pokemon-info-section">
+      <div class="section-title">Types</div>
+      <div class="pokemon-types">
+        @for (type of pokemon.types; track type.slot) {
+          <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="pokemon-info-section">
+      <div class="section-title">Abilities</div>
+      <div class="pokemon-abilities">
+        @for (ability of pokemon.abilities; track ability.slot) {
+          <span class="pokemon-ability">{{ ability.ability.name }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="pokemon-info-section">
+      <div class="section-title">Dimensions</div>
+      <div class="pokemon-dimensions">
+        <div class="dimension-item">
+          <span class="dimension-label">Height</span>
+          <span class="dimension-value">{{ pokemon.height }}0 cm</span>
+        </div>
+        <div class="dimension-item">
+          <span class="dimension-label">Weight</span>
+          <span class="dimension-value">{{ pokemon.weight }}00 g</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pokemon-info-section">
+      <div class="section-title">Stats</div>
+      <div class="pokemon-stats">
+        @for (stat of pokemon.stats; track stat.stat.name) {
+          <div class="stat-item">
+            <span class="stat-name">{{ stat.stat.name }}</span>
+            <span>{{ stat.base_stat }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <button class="back-button" routerLink="/">Back to List</button>
   </div>
-
-  <div>
-  @for (stat of pokemon.stats; track stat.stat.name) {
-    <span> {{ stat.stat.name }}: </span>
-    <span> {{ stat.base_stat }} </span>
-  }</div>
 } @else {
-  <span>Loading...</span>
+  <div class="loading">Loading...</div>
 }
-
-<!--
-// IMG
--->

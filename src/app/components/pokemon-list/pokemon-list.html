@@ -1,54 +1,55 @@
-<div>
-  <h3>Filter by Type:</h3>
-  <div>
-    <label>
-      <input type="radio" [formControl]="selectedTypeControl" value="all">
-      All Types
-    </label>
+<div class="filters-container">
+  <div class="filter-section">
+    <h3>Filter by Type:</h3>
+    <div class="type-filters">
+      <label class="type-filter">
+        <input type="radio" [formControl]="selectedTypeControl" value="all">
+        All Types
+      </label>
 
-    <!-- Pour chaque type de pokemon de l'API on créer son radio button -->
-    @for (pokemonType of pokemonTypes$ | async; track pokemonType.name) {
+      @for (pokemonType of pokemonTypes$ | async; track pokemonType.name) {
+        <label class="type-filter">
+          <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
+          {{ pokemonType.name }}
+        </label>
+      }
+    </div>
+  </div>
+
+  <div class="control-group">
     <label>
-      <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
-      {{ pokemonType.name }}
+      Order by
+      <select [formControl]="selectedOrderControl">
+        <option value="id">id</option>
+        <option value="asc">name (ascending)</option>
+        <option value="desc">name (descending)</option>
+      </select>
     </label>
-    }
+  </div>
+
+  <div class="control-group">
+    <label>
+      Search by name
+      <input type="text" [formControl]="searchControl">
+    </label>
   </div>
 </div>
 
-<div>
-  <label>
-    Order by
-    <select [formControl]="selectedOrderControl">
-      <option value="id">by id</option>
-      <option value="asc">by name (ascending)</option>
-      <option value="desc">by name (descending)</option>
-    </select>
-  </label>
-</div>
-
-<div>
-  <label>
-    Search by name
-    <input type="text" [formControl]="searchControl">
-  </label>
-</div>
-
 @if (isLoading) {
-<p>Loading pokemons...</p>
+  <p class="loading">Loading pokemons...</p>
 } @else if (hasData) {
-<ul>
-  @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
-  <li [routerLink]="['details', pokemon.name]">
-    {{ pokemon.name }}
-    <span>(
-      @for (type of pokemon.types; track type.slot) {
-      <span>{{ type.type.name }} </span>
-      }
-      )</span>
-  </li>
-  }
-</ul>
+  <ul class="pokemon-list">
+    @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
+      <li class="pokemon-item" [routerLink]="['details', pokemon.name]">
+        <div class="pokemon-name">{{ pokemon.name }}</div>
+        <div class="pokemon-types">
+          @for (type of pokemon.types; track type.slot) {
+            <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
+          }
+        </div>
+      </li>
+    }
+  </ul>
 } @else {
-<p>No pokemons found</p>
+  <p class="empty-state">No pokemons found</p>
 }

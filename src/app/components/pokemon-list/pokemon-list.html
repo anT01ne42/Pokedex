@@ -8,10 +8,10 @@
       </label>
 
       @for (pokemonType of pokemonTypes$ | async; track pokemonType.name) {
-        <label class="type-filter">
-          <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
-          {{ pokemonType.name }}
-        </label>
+      <label class="type-filter">
+        <input type="radio" [formControl]="selectedTypeControl" [value]="pokemonType.name">
+        {{ pokemonType.name }}
+      </label>
       }
     </div>
   </div>
@@ -36,20 +36,23 @@
 </div>
 
 @if (isLoading) {
-  <p class="loading">Loading pokemons...</p>
+<p class="loading">Loading pokemons...</p>
 } @else if (hasData) {
-  <ul class="pokemon-list">
-    @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
-      <li class="pokemon-item" [routerLink]="['details', pokemon.name]">
-        <div class="pokemon-name">{{ pokemon.name }}</div>
-        <div class="pokemon-types">
-          @for (type of pokemon.types; track type.slot) {
-            <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
-          }
-        </div>
-      </li>
-    }
-  </ul>
+<ul class="pokemon-list">
+  @for (pokemon of filteredPokemons$ | async; track pokemon.name) {
+  <li class="pokemon-item" [routerLink]="['details', pokemon.name]">
+    <div class="pokemon-image">
+      <img [src]="pokemon.defaultSprite" [alt]="'image-' + pokemon.name">
+    </div>
+    <div class="pokemon-name">{{ pokemon.name }}</div>
+    <div class="pokemon-types">
+      @for (type of pokemon.types; track type.slot) {
+      <span class="pokemon-type type-{{type.type.name}}">{{ type.type.name }}</span>
+      }
+    </div>
+  </li>
+  }
+</ul>
 } @else {
-  <p class="empty-state">No pokemons found</p>
+<p class="empty-state">No pokemons found</p>
 }

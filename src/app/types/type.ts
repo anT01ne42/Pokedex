@@ -10,10 +10,11 @@ export interface PokemonSummary {
   url: string;
 }
 
-export interface PokemonWithTypes {
+export interface PokemonSummaryWithDetails {
   id: number;
   name: string;
   types: PokemonTypes[];
+  defaultSprite: String;
 }
 
 export interface PokemonDetails {

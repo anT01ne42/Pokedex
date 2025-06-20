@@ -1,4 +1,4 @@
-import {PokemonDetails, PokemonWithTypes} from "../types/type";
+import { PokemonSummaryWithDetails } from "../types/type";
 
 /**
  * ordonne un tableau de pokemons selon la condition spécifiée
@@ -6,7 +6,7 @@ import {PokemonDetails, PokemonWithTypes} from "../types/type";
  * @param pokemonArray tableau de pokemon à ordonner
  * @returns tableau de pokemon ordonné
  */
-export const sortPokemons = (sortCondition: string, pokemonArray: PokemonWithTypes[]): PokemonWithTypes[] => {
+export const sortPokemons = (sortCondition: string, pokemonArray: PokemonSummaryWithDetails[]): PokemonSummaryWithDetails[] => {
     switch (sortCondition) {
         case 'id':
             return pokemonArray.sort((a, b) => a.id - b.id);

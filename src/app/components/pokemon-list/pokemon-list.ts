@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PokemonServices } from '../../pokemon-services';
-import { combineLatest, map, startWith, tap } from 'rxjs';
+import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -64,7 +64,7 @@ export class PokemonList {
   );
 
   // permet quand le composant est monté de récupérer les pokemon intiallement
-  ngOnInit(): void {
+  ngOnInit() {
     this.filteredPokemons$.subscribe();
   }
 }

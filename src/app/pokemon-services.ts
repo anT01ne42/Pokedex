@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 import { PokemonList } from './components/pokemon-list/pokemon-list';
-import { PokemonDetails, PokemonSummary, PokemonWithTypes, ResponsePokemonList, ResponsePokemonTypeList, TypeInfo } from './types/type';
+import { PokemonDetails, PokemonSummary, PokemonSummaryWithDetails, ResponsePokemonList, ResponsePokemonTypeList, TypeInfo } from './types/type';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class PokemonServices {
     )
   }
 
-  getPokemonsSummaryWithTypes(): Observable<PokemonWithTypes[]> {
+  getPokemonsSummaryWithTypes(): Observable<PokemonSummaryWithDetails[]> {
     // récupération de la liste des 50 pokemons avec infos basiques name et url
     return this.http.get<ResponsePokemonList>(this.ApiUrlList).pipe(
       // on se base sur la réponse initiale pour ensuite appeler les routes pour chaque pokemon
@@ -32,7 +32,8 @@ export class PokemonServices {
             map((pokemonDetails: PokemonDetails) => ({
               id: pokemonDetails.id,
               name: pokemonDetails.name,
-              types: pokemonDetails.types
+              types: pokemonDetails.types,
+              defaultSprite: pokemonDetails.sprites.front_default
             }))
           )
         );

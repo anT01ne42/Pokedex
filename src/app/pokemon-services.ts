@@ -37,7 +37,7 @@ export class PokemonServices {
           )
         );
         // retourne le résultat une fois que toutes les opérations du switchmap ont bien eu lieu et les infos ont été récupérées
-        return forkJoin(detailRequests).pipe(tap(() => console.log("got results")))
+        return forkJoin(detailRequests);
       })
     );
   }
@@ -49,8 +49,6 @@ export class PokemonServices {
   getAllPokemonTypes(): Observable<TypeInfo[]> {
     return this.http.get<ResponsePokemonTypeList>(this.ApiUrlTypes).pipe(
       map(response => {
-        console.log("response", response)
-        console.log("response results", response.results)
         return response.results
       })
     )

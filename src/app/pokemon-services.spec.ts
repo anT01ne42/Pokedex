@@ -14,12 +14,3 @@ describe('PokemonServices', () => {
     expect(service).toBeTruthy();
   });
 });
-//Organisation des fichiers
-//
-//     PokemonService : méthodes getPokemons() et getPokemonDetails()
-//
-//     PokemonListComponent : appel de la liste, tri et navigation vers la page de détails
-//
-//     PokemonDetailComponent : appel getPokemonDetails(route.params.name) et affichage
-//
-// ​

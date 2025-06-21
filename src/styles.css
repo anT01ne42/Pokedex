@@ -1,17 +1,18 @@
 /* Global styles */
 :root {
-  --primary-color: #ef5350;       /* Pokéball red */
-  --secondary-color: #3761a8;     /* Pokémon blue */
-  --accent-color: #feca1b;        /* Pokémon yellow */
-  --background-color: #f5f5f5;
-  --card-background: white;
-  --text-color: #333;
-  --border-radius: 8px;
-  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --primary-color: #6966ab;       /* Pokéball red */
+  --secondary-color: #244377;     /* Pokémon blue */
+  --accent-color: #fffdd4;        /* Pokémon yellow */
+  --background-color: #375281;
+  --card-background: #cedbfc;
+  --text-color: #162031;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 5px rgba(38, 41, 70, 0.32);
 }
 
 body {
   font-family: 'Arial', sans-serif;
+  font-weight: 500;
   background-color: var(--background-color);
   color: var(--text-color);
   margin: 0;
@@ -76,7 +77,7 @@ select {
   align-items: center;
   padding: 20px;
   font-style: italic;
-  color: #666;
+  color: #c8d8dc;
 }
 
 /* Card style for content */

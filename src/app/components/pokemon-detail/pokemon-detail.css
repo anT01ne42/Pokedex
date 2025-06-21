@@ -137,3 +137,11 @@
   margin-top: 20px;
   background-color: var(--secondary-color);
 }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  color: #c8d8dc;
+  font-style: italic;
+}
